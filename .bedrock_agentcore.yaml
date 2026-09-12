@@ -1,0 +1,62 @@
+default_agent: solus_agent
+agents:
+  solus_agent:
+    name: solus_agent
+    language: python
+    node_version: '20'
+    entrypoint: /home/jpty/Solus-Agent/starter/main.py
+    deployment_type: direct_code_deploy
+    runtime_type: PYTHON_3_11
+    platform: linux/arm64
+    container_runtime: null
+    source_path: /home/jpty/Solus-Agent
+    aws:
+      execution_role: arn:aws:iam::054833633679:role/AmazonBedrockAgentCoreSDKRuntime-us-east-1-496db03fba
+      execution_role_auto_create: false
+      account: 054833633679
+      region: us-east-1
+      ecr_repository: null
+      ecr_auto_create: false
+      s3_path: s3://bedrock-agentcore-codebuild-sources-054833633679-us-east-1
+      s3_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC
+        network_mode_config: null
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true
+      lifecycle_configuration:
+        idle_runtime_session_timeout: null
+        max_lifetime: null
+    bedrock_agentcore:
+      agent_id: solus_agent-1T5PxV97sE
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:054833633679:runtime/solus_agent-1T5PxV97sE
+      agent_session_id: 88695af3-aad3-4768-8316-66e831d99404
+    codebuild:
+      project_name: null
+      execution_role: null
+      source_bucket: null
+    memory:
+      mode: STM_ONLY
+      memory_id: solus_agent_mem-uhQmYh5an7
+      memory_arn: arn:aws:bedrock-agentcore:us-east-1:054833633679:memory/solus_agent_mem-uhQmYh5an7
+      memory_name: solus_agent_mem
+      event_expiry_days: 30
+      first_invoke_memory_check_done: true
+      was_created_by_toolkit: true
+    identity:
+      credential_providers: []
+      workload: null
+    aws_jwt:
+      enabled: false
+      audiences: []
+      signing_algorithm: ES384
+      issuer_url: null
+      duration_seconds: 300
+    authorizer_configuration: null
+    request_header_configuration: null
+    oauth_configuration: null
+    api_key_env_var_name: null
+    api_key_credential_provider_name: null
+    is_generated_by_agentcore_create: false

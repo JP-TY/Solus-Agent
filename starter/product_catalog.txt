@@ -1,0 +1,131 @@
+# Solus Solar Product Catalog & Philippine Net-Metering Reference
+
+## Tier-1 Monocrystalline Bifacial Panels — 550W
+
+### SOLUS-550M Bifacial Mono PERC (PROD-PANEL-550)
+Power: 550W, Efficiency: 21.3%
+Type: Monocrystalline bifacial, half-cell
+Dimensions: 2278 x 1134 x 35 mm, Weight: 32 kg
+Warranty: 12-year product, 25-year linear power output
+Wind rating: Mounting certified to NSCP wind loads up to 280+ km/h with typhoon clips
+Use: Residential rooftop, GI sheet or concrete slab mounting
+Price reference: PHP 12,500 per panel (approx PHP 22.7 per Watt)
+
+### JA-Solar / LONGi / Trina 550W equivalents
+Power: 545-555W bifacial mono
+Efficiency: 21.0-21.5%
+Temperature coefficient: -0.34%/C (tropical derate accounted in sizing)
+Certifications: IEC 61215, IEC 61730, PID resistant for humid climates
+
+## Hybrid and String Inverters
+
+### Deye SUN-5K-SG04LP3 Hybrid (INV-DEYE-5K)
+Capacity: 5 kW hybrid, 48V battery ready
+MPPT: 2 trackers, max PV 6500W
+Grid: 220V single-phase, ERC interconnection compliant, anti-islanding protection
+Features: Net-metering export control, generator port, UPS-grade 4ms transfer
+Warranty: 5 years, extendable to 10
+Price reference: PHP 85,000
+
+### Deye SUN-8K-SG01LP1 Hybrid (INV-DEYE-8K)
+Capacity: 8 kW hybrid, supports up to 16 kW PV
+Use: Larger homes and small businesses, parallel up to 16 units
+Price reference: PHP 125,000
+
+### Growatt MIN 5000TL-X String (INV-GROWATT-5K)
+Capacity: 5 kW on-grid string, single MPPT
+Use: Budget grid-tie net-metering only (no backup during brownout)
+Price reference: PHP 45,000
+
+### Enphase IQ8+ Microinverters (INV-ENPHASE-IQ8)
+Capacity: 300W per panel, panel-level MPPT and monitoring
+Use: Shaded or multi-orientation roofs, per-panel rapid shutdown
+Price reference: PHP 14,000 per microinverter
+
+## LiFePO4 Batteries — 5.12 kWh Wall-Mounted
+
+### SOLUS-WALL-5K LiFePO4 (BAT-5KWH)
+Capacity: 5.12 kWh (51.2V 100Ah), usable DoD 90%
+Cycles: 6000 cycles at 80% DoD, 10-year design life
+Mounting: IP65 wall-mounted, indoor or covered outdoor
+Inverter compatibility: Deye, Growatt SPF, Victron (CAN/RS485)
+Backup guidance: 5.12 kWh sustains refrigerator, lights, fans, Wi-Fi and phones overnight; add second unit for aircon backup
+Price reference: PHP 95,000 per unit
+
+### Expansion guidance
+- 1 x 5.12 kWh: essential loads backup, 4-6 hours
+- 2 x 5.12 kWh (10.24 kWh): overnight comfort including 1 split-type aircon on timer
+- 3+ units: small business continuity during extended outages
+
+## Philippine Net-Metering Framework — ERC Resolution No. 06 Series of 2019 (as amended)
+
+### Eligibility
+- End-users of distribution utilities (Meralco, VECO, Davao Light, and other DUs and ECs)
+- Renewable system size up to 100 kWp per premises
+- Solar PV is the dominant qualified technology
+
+### Crediting rule — avoided generation cost vs retail rate
+- Self-consumed solar offsets the full retail rate (generation + transmission + distribution + surcharges, e.g. approx PHP 11-13/kWh for Meralco residential)
+- Exported surplus is credited at the DU's avoided generation cost (blended generation charge, e.g. approx PHP 5-7/kWh), NOT the full retail rate
+- Credits appear as peso deductions on the monthly DU bill; net billing monthly
+
+### Interconnection process
+1. Ocular site survey and load assessment by installer
+2. Net-metering application to DU with single-line diagram, inverter certs, PRC-licensed engineer sign-off
+3. DU technical evaluation and meter socket inspection
+4. Bi-directional meter installation and Certificate of Compliance
+5. Permission to operate and first net-billed cycle
+
+### Distribution utilities covered
+- Meralco (Metro Manila, Cavite, Laguna, Bulacan, Rizal): online net-metering portal, 15-30 day evaluation typical
+- VECO (Cebu): VECO Net-Metering desk, requires ERC Certificate of Compliance flow
+- Davao Light (Davao City, Panabo): Davao Light renewables desk, similar documentary steps
+
+## Solar Sizing Reference — Tropical Philippines
+
+### Peak sun hours (PSH)
+- National average: 4.5-5.0 PSH daily
+- Use 4.5 PSH for conservative Luzon/Visayas/Mindanao sizing, 5.0 PSH for high-irradiance summer months
+- System derate factor: 0.75-0.80 (soiling, heat, inverter losses, orientation)
+
+### Sizing formula
+- Daily kWh need = monthly kWh / 30
+- Required kWp = daily kWh / (PSH x derate)
+- Example: 300 kWh/month = 10 kWh/day; 10 / (4.5 x 0.78) = 2.85 kWp, round to 3.0-3.3 kWp (6 x 550W panels)
+
+### Roof and typhoon guidance
+- GI sheet: rail + L-foot + butyl sealing, extra purlin screws within 1m of eaves and ridges
+- Concrete slab: ballasted or chemically anchored rails, waterproof membrane protection
+- Orientation: south-facing ideal; east-west split acceptable with 5-8% yield penalty
+- NSCP wind compliance: anodized aluminum rails, stainless fasteners, typhoon clips, design to 280+ km/h gusts in eastern seaboard zones
+
+## Packages and Pricing Reference
+
+### 3.3 kWp Grid-Tie (6 x 550W, 5 kW string)
+Yield: approx 400-450 kWh/month
+Price reference: PHP 165,000 installed, net-metered
+Best for: PHP 4,500-6,000 monthly Meralco bills
+
+### 5.5 kWp Hybrid with 5.12 kWh Battery (10 x 550W, Deye 5 kW, 1 battery)
+Yield: approx 650-750 kWh/month plus brownout backup
+Price reference: PHP 385,000 installed
+Best for: PHP 8,000-11,000 monthly bills, work-from-home continuity
+
+### 8.8 kWp Hybrid with 10.24 kWh Battery (16 x 550W, Deye 8 kW, 2 batteries)
+Yield: approx 1,050-1,200 kWh/month
+Price reference: PHP 595,000 installed
+Best for: PHP 14,000-18,000 monthly bills, small business
+
+## Frequently Asked Questions
+
+### How fast is payback in the Philippines?
+At Meralco residential retail approx PHP 12/kWh and avoided export cost approx PHP 6/kWh, with 60% self-consumption and 40% export, a grid-tie system typically pays back in 4-6 years; hybrid with battery in 6-8 years including backup value.
+
+### Does solar work during brownouts?
+Grid-tie string inverters shut down during outages for lineman safety. Only hybrid inverters with batteries provide backup; critical-loads subpanel required.
+
+### What roof information does Solus need?
+Roof material (GI sheet or concrete slab), orientation, shading from trees or buildings, monthly bill in PHP or kWh, distribution utility (Meralco, VECO, Davao Light), and battery backup priority.
+
+### What are Solus service tiers?
+Silver: standard survey and install scheduling. Gold: 10% promo on accessories and priority scheduling. Platinum: 15% promo, same-day survey slots in Metro Manila and Cebu, priority net-metering liaison.

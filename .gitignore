@@ -1,0 +1,18 @@
+# Python / local tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Bedrock AgentCore local build artifacts
+.bedrock_agentcore/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

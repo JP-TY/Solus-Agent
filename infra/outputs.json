@@ -1,0 +1,16 @@
+{
+  "gatewayRoleArn": "arn:aws:iam::054833633679:role/solus-gateway-exec",
+  "restApiId": "lpiycqnomi",
+  "restApiStage": "prod",
+  "gatewayId": "solusgateway-sgoy2fibvf",
+  "gatewayUrl": "https://solusgateway-sgoy2fibvf.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
+  "surveyTargetId": "XSNZ432NFI",
+  "nmTargetId": "NRGEVMKYXM",
+  "memoryId": "SolusMemory-KdpcFR4z07",
+  "kbRoleArn": "arn:aws:iam::054833633679:role/solus-kb-role",
+  "pineconeSecretArn": "arn:aws:secretsmanager:us-east-1:054833633679:secret:solus-pinecone-key-MAo94f",
+  "kbId": "EG5YRCZGER",
+  "kbStore": "pinecone",
+  "dataSourceId": "8E2WEURIAY",
+  "kbSynced": true
+}

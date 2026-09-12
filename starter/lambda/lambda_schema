@@ -1,0 +1,69 @@
+[
+  {
+    "name": "submit_net_metering",
+    "description": "File an initial net-metering/interconnection application to a Philippine distribution utility.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "description": "Customer ID in Solus system"
+        },
+        "distribution_utility": {
+          "type": "string",
+          "description": "Distribution utility: Meralco, VECO, or Davao Light"
+        },
+        "account_number": {
+          "type": "string",
+          "description": "DU account/service ID number"
+        },
+        "capacity_kwp": {
+          "type": "number",
+          "description": "Proposed solar capacity in kWp (max 100)"
+        },
+        "inverter_type": {
+          "type": "string",
+          "description": "Inverter type: hybrid, string, or microinverter"
+        }
+      },
+      "required": [
+        "customer_id",
+        "distribution_utility",
+        "account_number",
+        "capacity_kwp"
+      ]
+    }
+  },
+  {
+    "name": "check_net_metering_status",
+    "description": "Check the status of an existing net-metering application.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "application_id": {
+          "type": "string",
+          "description": "Net-metering application ID (NM-XXXXXXXX)"
+        }
+      },
+      "required": [
+        "application_id"
+      ]
+    }
+  },
+  {
+    "name": "get_interconnection_checklist",
+    "description": "Get documentary checklist for DU interconnection.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "distribution_utility": {
+          "type": "string",
+          "description": "Distribution utility name"
+        }
+      },
+      "required": [
+        "distribution_utility"
+      ]
+    }
+  }
+]
