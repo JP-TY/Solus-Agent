@@ -21,7 +21,7 @@ Tool schema is declared in lambda_schema (JSON file in the same directory).
 import json
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def _new_application_id() -> str:
@@ -59,7 +59,7 @@ def lambda_handler(event, context):
                     "typically takes 15-30 days; bi-directional meter installation "
                     "follows ERC compliance clearance."
                 ),
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }),
         }
 

@@ -112,30 +112,30 @@ attributed above.
 Beyond the starter code, the following documentation and public references were
 consulted and integrated into the build (listed by where they were applied):
 
-- **Strands Agents SDK docs** — agent construction, `@tool` authoring, the
+- **Strands Agents SDK docs** ([strandsagents.com](https://strandsagents.com/)) — agent construction, `@tool` authoring, the
   `MCPClient` + `HookProvider`/`register_hooks` pattern, and `AgentCoreBrowser`
   from `strands-tools` (all wired in `starter/main.py`).
-- **Amazon Bedrock AgentCore docs** — `BedrockAgentCoreApp` runtime shape and
+- **Amazon Bedrock AgentCore docs** ([docs.aws.amazon.com/bedrock-agentcore](https://docs.aws.amazon.com/bedrock-agentcore/)) — `BedrockAgentCoreApp` runtime shape and
   `@app.entrypoint`, `MemoryClient` strategies/namespaces, Gateway targets and
   MCP tool routing via `bedrockAgentCoreToolName`, and the Code Interpreter
   `code_session(...).invoke("executeCode", ...)` call.
-- **Model Context Protocol (Python SDK) docs** — `streamable_http_client` used
+- **Model Context Protocol docs** ([modelcontextprotocol.io](https://modelcontextprotocol.io/), [Python SDK](https://github.com/modelcontextprotocol/python-sdk)) — `streamable_http_client` used
   to connect the Strands `MCPClient` to the Gateway URL.
-- **Amazon Bedrock Knowledge Bases docs** — S3 data source setup, Titan Embed
+- **Amazon Bedrock Knowledge Bases docs** ([knowledge-base user guide](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)) — S3 data source setup, Titan Embed
   Text v2 as the embedding model, the Retrieve API, and the Pinecone storage
   configuration (all automated in `infra/build_kb.py` after the native
   OpenSearch Serverless path was denied in this sandbox).
-- **Pinecone docs** — serverless index model (1024-dim cosine) behind the
+- **Pinecone docs** ([docs.pinecone.io](https://docs.pinecone.io/)) — serverless index model (1024-dim cosine) behind the
   Secrets Manager credential referenced in `infra/outputs.json`.
-- **boto3 / botocore docs** — STS identity resolution and the AgentCore control
+- **boto3 / botocore docs** ([boto3.amazonaws.com](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)) — STS identity resolution and the AgentCore control
   plane calls automated in `infra/build_cli.py` (roles, REST API, Gateway,
   targets, memory).
-- **CopilotKit, AWS Amplify, and AWS SDK for JavaScript docs** — chat UI,
+- **CopilotKit** ([docs.copilotkit.ai](https://docs.copilotkit.ai/)), **AWS Amplify** ([docs.amplify.aws](https://docs.amplify.aws/)), and **AWS SDK for JavaScript** ([API reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/)) — chat UI,
   auth scaffolding, and the `bedrock-agentcore` client in `frontend/`.
-- **Terraform AWS provider docs** — Lambda packaging and IAM in
+- **Terraform AWS provider docs** ([registry.terraform.io](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)) — Lambda packaging and IAM in
   `terraform/modules/solus-lambdas`.
 - **Public domain references** — ERC net-metering rules, Meralco rate pages
-  (retrieved live in Test 6), and vendor datasheets behind the panel/inverter
+  ([company.meralco.com.ph](https://company.meralco.com.ph/), retrieved live in Test 6), and vendor datasheets behind the panel/inverter
   figures in `starter/product_catalog.txt`.
 
 ## Teardown (stop idle spend)

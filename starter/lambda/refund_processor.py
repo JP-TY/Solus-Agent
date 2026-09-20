@@ -24,7 +24,7 @@ That schema tells the Gateway which arguments to pass for each tool.
 import json
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -73,7 +73,7 @@ def lambda_handler(event, context):
                 "status":     "APPROVED",
                 "amount":     event.get("amount", 0),   # default to 0 if not supplied
                 "message":    "Refund approved. Credit appears in 3-5 business days.",
-                "created_at": datetime.utcnow().isoformat(),
+                "created_at": datetime.now(timezone.utc).isoformat(),
             }),
         }
 

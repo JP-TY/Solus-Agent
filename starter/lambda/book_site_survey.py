@@ -15,7 +15,7 @@ the function to the AgentCore Gateway as an API Gateway REST proxy target.
 import json
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def _surveys():
@@ -91,7 +91,7 @@ def lambda_handler(event, context):
                 "Site survey scheduled. Our engineer will assess roof structure, "
                 "shading, electrical panel, and NSCP wind-load mounting requirements."
             ),
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.now(timezone.utc).isoformat(),
         }
         if not survey["address"] or not survey["preferred_date"]:
             return _response(400, {"error": "address and preferred_date are required"})
