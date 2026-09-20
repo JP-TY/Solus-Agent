@@ -167,5 +167,6 @@ def test_main_rubric_patterns():
         "earn_rates", "tier_rates", "points_redeemed", "tier_discount_pct",
         "final_total", "remaining_points", 'code_session(REGION).invoke("executeCode"',
         "clearContext", "AgentCoreBrowser", "agent_core_browser.browser",
+        "def track_order", "def process_refund",
     ]:
         assert needle in src, needle

@@ -32,7 +32,7 @@ agents:
     bedrock_agentcore:
       agent_id: solus_agent-1T5PxV97sE
       agent_arn: arn:aws:bedrock-agentcore:us-east-1:054833633679:runtime/solus_agent-1T5PxV97sE
-      agent_session_id: 88695af3-aad3-4768-8316-66e831d99404
+      agent_session_id: 64f69259-d067-4932-a05c-310002c14046
     codebuild:
       project_name: null
       execution_role: null

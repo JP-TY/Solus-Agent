@@ -4,31 +4,33 @@ Runtime: `arn:aws:bedrock-agentcore:us-east-1:054833633679:runtime/solus_agent-1
 Gateway: `https://solusgateway-sgoy2fibvf.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp` (6 tools, NONE auth)
 Memory: `SolusMemory-KdpcFR4z07` (solar_facts + solar_preferences, ACTIVE)
 
-## Test 1 — Order tracking (API-proxy Lambda) ✅
+## Test 1 — Order tracking (live `agentcore invoke`) ✅
 Command:
 ```bash
-.venv/bin/python -m pytest tests/test_solus.py -v -k order
+agentcore invoke '{"prompt": "Hi, can you track my order ORD-001? I want to know its status and tracking number.", "customer_id": "CUST-123", "session_id": "t1-live"}'
 ```
-Result (exit 0, 3 passed):
+Response (exit 0, new `track_order` agent tool calling the `order_tracker` Lambda in-process):
 ```
-GET /orders/ORD-001 -> 200 SHIPPED, tracking TRK987654321 (UPS)
-GET /customers/CUST-123/orders -> 200, 2 orders returned
-GET /orders/ORD-999 -> 404 Order not found
+Your order ORD-001 has been SHIPPED. Here are the details:
+- Items: 1x Wireless Headphones Pro | Total: $89.99
+- Carrier: UPS | Tracking Number: TRK987654321
+- Estimated Delivery: 2026-09-22
 ```
-Proves: `order_tracker` Lambda serves the REST proxy routes (`/orders/{order_id}`, `/customers/{customer_id}/orders`) with well-formed JSON. Screenshot: `screenshots/test1_order_tracking.png`.
+Proves: the deployed agent answers an `agentcore invoke` order-tracking prompt with live tool data and no errors. Screenshot: `screenshots/test1_order_tracking.png`. (Offline pytest coverage: `test_order_get_by_id`, `test_order_customer_orders`, `test_order_not_found`.)
 
-## Test 2 — Refund processing (Lambda Gateway target) ✅
+## Test 2 — Refund processing (live `agentcore invoke`) ✅
 Command:
 ```bash
-.venv/bin/python -m pytest tests/test_solus.py -v -k refund
+agentcore invoke '{"prompt": "Hi, I would like a refund for order ORD-002, $139.99, because it arrived damaged.", "customer_id": "CUST-123", "session_id": "t2-live"}'
 ```
-Result (exit 0, 2 passed + schema check):
+Response (exit 0, new `process_refund` agent tool calling the `refund_processor` Lambda in-process):
 ```
-initiate_refund ORD-002 $139.99 -> 200 APPROVED, id REF-xxxxxxxx
-check_refund_status -> 200 PROCESSING, eta 2-3 business days
-get_return_label ORD-001 -> 200 label_url .../label/ORD-001 (UPS)
+Refund Processed Successfully!
+- Order ID: ORD-002 | Refund Amount: $139.99
+- Status: Approved (REF-ST2U6QEC)
+- Credit Timeline: 3-5 business days
 ```
-Proves: `refund_processor` Lambda routes all three Gateway tools (`initiate_refund`, `check_refund_status`, `get_return_label`) via `bedrockAgentCoreToolName`, and `lambda_schema` declares them. Screenshot: `screenshots/test2_refund_processing.png`.
+Proves: the deployed agent answers an `agentcore invoke` refund prompt with live tool data and no errors; the refund tool schema is declared in `lambda_schema`. Screenshot: `screenshots/test2_refund_processing.png`. (Offline pytest coverage: `test_refund_initiate`, `test_refund_status_and_label`, `test_lambda_schema_valid`.)
 
 ## Extra A — Site-survey booking (live Gateway demo, solar adaptation) ✅
 Command:

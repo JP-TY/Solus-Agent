@@ -21,6 +21,8 @@ from strands.tools.mcp.mcp_client import MCPClient
 from mcp.client.streamable_http import streamable_http_client
 import argparse, json
 import os, asyncio, boto3
+import sys
+from pathlib import Path
 from strands.hooks import (
     HookProvider, AfterInvocationEvent, HookRegistry, MessageAddedEvent,
 )
@@ -351,6 +353,76 @@ print(json.dumps(result))
         return json.dumps(fallback)
 
 
+# ── Order & Refund Tools (local Lambda handlers) ─────────────────────────────
+sys.path.insert(0, str(Path(__file__).resolve().parent / "lambda"))
+from order_tracker import lambda_handler as _order_tracker_handler
+from refund_processor import lambda_handler as _refund_processor_handler
+
+
+class _GatewayToolCtx:
+    """Minimal stand-in for the Lambda context the Gateway normally provides."""
+
+    def __init__(self, tool_name: str):
+        self.client_context = type(
+            "C", (), {"custom": {"bedrockAgentCoreToolName": f"SolusTarget___{tool_name}"}}
+        )()
+
+
+@tool
+def track_order(order_id: str) -> str:
+    """
+    Track a customer order by its ID. Use when the customer asks where their
+    order is, for delivery status, tracking numbers, or carrier info.
+
+    Args:
+        order_id: The order ID, e.g. ORD-001
+
+    Returns:
+        Order status, items, tracking number, carrier, and delivery estimate
+    """
+    event = {
+        "resource": "/orders/{order_id}",
+        "httpMethod": "GET",
+        "pathParameters": {"order_id": order_id},
+    }
+    resp = _order_tracker_handler(event, None)
+    body = json.loads(resp["body"])
+    if resp["statusCode"] != 200:
+        return f"Order lookup failed: {body.get('error', 'unknown error')}"
+    items = ", ".join(f"{i['qty']}x {i['name']}" for i in body.get("items", []))
+    eta = body.get("estimated_delivery") or body.get("delivered_date", "n/a")
+    return (
+        f"Order {body['order_id']} is {body['status']}. Items: {items}. "
+        f"Total ${body['total']}. Carrier {body.get('carrier')} tracking "
+        f"{body.get('tracking_number')}. Estimated delivery {eta}."
+    )
+
+
+@tool
+def process_refund(order_id: str, amount: float, reason: str) -> str:
+    """
+    Initiate a refund for a customer order. Use when the customer asks for a
+    refund, return, or money back on an order.
+
+    Args:
+        order_id: The order ID to refund, e.g. ORD-002
+        amount: Refund amount in USD
+        reason: Reason for the refund
+
+    Returns:
+        Refund ID, approval status, and next steps
+    """
+    event = {"order_id": order_id, "amount": amount, "reason": reason}
+    resp = _refund_processor_handler(event, _GatewayToolCtx("initiate_refund"))
+    body = json.loads(resp["body"])
+    if resp["statusCode"] != 200:
+        return f"Refund failed: {body.get('error', 'unknown error')}"
+    return (
+        f"Refund {body['refund_id']} for order {body['order_id']} is "
+        f"{body['status']} for ${body['amount']}. {body['message']}"
+    )
+
+
 # ── TODO 8 — Agent Entrypoint ─────────────────────────────────────────────────
 SOLUS_SYSTEM_PROMPT = """You are Solus, an intelligent rooftop solar and clean energy
 transition concierge for the Philippine market. Advise homeowners and businesses on
@@ -362,6 +434,8 @@ hours with 0.75-0.80 derate; NSCP typhoon mounting to 280+ km/h; GI sheet vs con
 slab roofs. Use search_knowledge_base for specs and policy. Use Gateway MCP tools:
 book_site_survey for ocular assessments, submit_net_metering for DU applications.
 Use calculate_loyalty_discount for exact promo math plus solar sizing/payback.
+Use track_order when the customer asks about an order's status or tracking,
+and process_refund when they ask for a refund or return.
 Use the browser for live Meralco tariff or ERC announcements. Remember utility, monthly
 bill (PHP/kWh), roof type/orientation, and backup priorities across sessions. Always
 recommend a licensed installer and PRC engineer sign-off; never invent tariffs.
@@ -393,6 +467,8 @@ async def invoke(payload, context=None):
         tools = [
             search_knowledge_base,
             calculate_loyalty_discount,
+            track_order,
+            process_refund,
             agent_core_browser.browser,
         ]
 
