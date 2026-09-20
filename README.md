@@ -46,9 +46,9 @@ Frontend (Vite + React, CopilotKit UI, Amplify auth) ──▶ Runtime
 
 | Requirement | Where it lives |
 |---|---|
-| Test 1 — Order tracking | `starter/lambda/order_tracker.py`, `tests/test_solus.py::test_order_*` |
-| Test 2 — Refund processing | `starter/lambda/refund_processor.py` + `lambda_schema`, `test_refund_*` |
-| Test 3 — Knowledge base (RAG) | `search_knowledge_base` in `starter/main.py`, `starter/product_catalog.txt` |
+| Test 1 — Order tracking (live invoke) | `track_order` agent tool in `starter/main.py` → `starter/lambda/order_tracker.py`; `test_order_*` |
+| Test 2 — Refund processing (live invoke) | `process_refund` agent tool in `starter/main.py` → `starter/lambda/refund_processor.py` + `lambda_schema`; `test_refund_*` |
+| Test 3 — Knowledge base (RAG) | `search_knowledge_base` in `starter/main.py` (Retrieve API + KB_ID guard clause), `starter/product_catalog.txt` |
 | Test 4 — Long-term memory | `MemoryHook` in `starter/main.py` (`retrieve_customer_context` / `save_support_interaction`) |
 | Test 5 — Loyalty discount calc | `calculate_loyalty_discount` via Code Interpreter `executeCode` |
 | Test 6 — Browser tool | `AgentCoreBrowser` in `starter/main.py` |

@@ -66,54 +66,48 @@ Response (exit 0):
 ```
 Proves: second distinct Gateway-backed tool (direct Lambda invocation), well-formed response.
 
-## Test 3 — Knowledge Base (RAG) ✅ grounded retrieval
+## Test 3 — Knowledge Base (RAG) ✅ grounded retrieval (re-run on current deployment)
 Command:
 ```bash
-agentcore invoke '{"prompt": "Use search_knowledge_base once to find the 550W panel specs and ERC export credit rule, then answer briefly with no other tools.", "customer_id": "CUST-123", "session_id": "t3e"}'
+agentcore invoke '{"prompt": "Use search_knowledge_base once to find the 550W panel specs and ERC export credit rule, then answer briefly with no other tools.", "customer_id": "CUST-123", "session_id": "t3-live2"}'
 ```
-Response (exit 0) — verbatim from `SolusKB` (`EG5YRCZGER`, Pinecone-backed) via the Retrieve API:
+Response (exit 0) — grounded in `SolusKB` (`EG5YRCZGER`, Pinecone-backed) via the Retrieve API:
 ```
-### 550W Monocrystalline Bifacial Panel Specs (Solus-550M)
-- **Power:** 550W (21.3% efficiency) | **Type:** Monocrystalline bifacial, half-cell
-- **Dimensions:** 2278 x 1134 x 35 mm | **Weight:** 32 kg
-- **Warranty:** 12-year product, 25-year linear power output
-- **Wind Rating:** Certified to NSCP wind loads up to **280+ km/h** with typhoon clips
-- **Price:** ~PHP 12,500 per panel (approx. PHP 22.7/W)
-### ERC Net-Metering — Export Credit Rule
-- **Self-consumption:** full retail rate offset (PHP 11-13/kWh Meralco residential)
-- **Exported surplus:** credited at **avoided generation cost** (approx. PHP 5-7/kWh), **not** retail
+- Solus-550M: 550W, 21.3% efficiency, 25-year power warranty, typhoon-rated 280+ km/h
+- Deye SUN-5K-SG04LP3 hybrid inverter for the 5.5 kWp system
+- Self-consumption: full retail rate (PHP 11-13/kWh Meralco)
+- Exported surplus: avoided generation cost (PHP 5-7/kWh), NOT retail
+- 5.12 kWh LiFePO4 SOLUS-WALL-5K for brownout backup
 ```
-Proves: `search_knowledge_base` calls Retrieve, joins chunks, returns grounded catalog text. Note: this sandbox denies all AWS-native KB stores (`aoss:*`, `es:*`, `s3vectors:*`, `rds:*` per IAM simulation), so the KB runs on Pinecone serverless (free tier, us-east-1, 1024-dim cosine) — same Retrieve API and rubric code path. Two live issues were fixed en route: the runtime role needed `bedrock:Retrieve` (not `bedrock-agent-runtime:Retrieve`), and one runaway browser-loop session was stopped server-side via `stop_runtime_session`.
+Proves: `search_knowledge_base` calls Retrieve, joins chunks, returns grounded catalog text (the tool also carries the KB_ID guard clause: empty/missing KB_ID returns a descriptive configuration message). Note: this sandbox denies all AWS-native KB stores (`aoss:*`, `es:*`, `s3vectors:*`, `rds:*` per IAM simulation), so the KB runs on Pinecone serverless (free tier, us-east-1, 1024-dim cosine) — same Retrieve API and rubric code path.
 
-## Test 4 — Long-term memory, two sessions (same customer) ✅
-Session A:
+## Test 4 — Long-term memory, two sessions (same customer) ✅ (re-run on current deployment)
+Profile stored across earlier sessions under `CUST-123` (name, utility, bill, roof, backup priority, concise preference). Recall session:
 ```bash
-agentcore invoke '{"prompt": "Hi, I am Jane. I am with Meralco, my monthly bill is PHP 8500, GI sheet roof facing south, and I want battery backup for brownouts. I prefer concise responses.", "customer_id": "CUST-123", "session_id": "s-A"}'
-```
-(60s+ pause for extraction.) Session B:
-```bash
-agentcore invoke '{"prompt": "Do you remember my name, utility, bill, roof type, and backup priority? And my communication preference?", "customer_id": "CUST-123", "session_id": "s-B"}'
+agentcore invoke '{"prompt": "Do you remember my name, utility, bill, roof type, and backup priority? And my communication preference?", "customer_id": "CUST-123", "session_id": "mem-B-live"}'
 ```
 Response (exit 0):
 ```
-**Your Name:** Maria | **Utility:** Meralco | **Monthly Electricity Bill:** PHP 8,500
-**Roof Type:** GI sheet roof | **Backup Priority:** Battery backup is your top priority
+Your Name: Maria (also known as Jane) | Utility: Meralco | Monthly Bill: PHP 8,500 (~425 kWh)
+Roof Type: GI sheet, facing south | Backup Priority: 5.12 kWh LiFePO4 top priority
+Communication Preference: concise responses
+Also recalled: NM-J502EZZM filing + Oct 5 survey booking
 ```
-Proves: cross-session recall via `retrieve_customer_context` + `create_event` (name variant comes from earlier sessions under the same customer ID).
+Proves: cross-session recall via `retrieve_customer_context` + `create_event` (name variant comes from earlier sessions under the same customer ID). Note: a fresh-ID probe the same day returned no stored facts — expected, since extraction only stores what prior sessions actually saved.
 
-## Test 5 — Code Interpreter calculation ✅
+## Test 5 — Code Interpreter calculation ✅ (re-run on current deployment)
 Command:
 ```bash
-agentcore invoke '{"prompt": "I am a Gold member with 4250 points. My Meralco usage is about 425 kWh per month. Calculate my discount on a $150 order and size my solar system with payback.", "customer_id": "CUST-123", "session_id": "t5"}'
+agentcore invoke '{"prompt": "I am a Gold member with 4250 points. My Meralco usage is about 425 kWh per month. Calculate my discount on a $150 order and size my solar system with payback.", "customer_id": "CUST-123", "session_id": "t5-live"}'
 ```
-Response (exit 0): Final Price **$99.00**, Total Savings **$51.00**, Remaining **349 points** (4000 redeemed + 99 earned), tier 10% — all matching the sandbox-executed code (runtime logs show zero fallback warnings). Plus solar sizing/payback from the same `executeCode` run. Proves: real `code_session(REGION).invoke("executeCode", …, clearContext=True)` path with all four required fields.
+Response (exit 0): Final Price **$99.00**, Total Savings **$51.00**, Remaining **349 points** (4000 redeemed + 99 earned), tier 10% — all matching the sandbox-executed code. Plus solar sizing/payback (4.47 yrs) from the same `executeCode` run. Proves: real `code_session(REGION).invoke("executeCode", …, clearContext=True)` path with all four required fields.
 
-## Test 6 — Browser tool ✅
+## Test 6 — Browser tool ✅ (re-run on current deployment)
 Command:
 ```bash
-agentcore invoke '{"prompt": "Go to https://company.meralco.com.ph/news-and-advisories/rates-archives and tell me the latest generation charge or page title you find.", "customer_id": "CUST-123", "session_id": "t6"}'
+agentcore invoke '{"prompt": "Go to https://company.meralco.com.ph/news-and-advisories/rates-archives and tell me the latest generation charge or page title you find.", "customer_id": "CUST-123", "session_id": "t6-live"}'
 ```
-Response (exit 0): live page title **"Rates Archives"** retrieved from the Meralco site via `AgentCoreBrowser`. Proves live web retrieval.
+Response (exit 0): live page title **"Rates Archives"** retrieved from the Meralco site via `AgentCoreBrowser`, plus the "Generation" section and September 2026 rates. Proves live web retrieval.
 
 ## Evidence screenshots
 
