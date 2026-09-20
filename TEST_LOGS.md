@@ -86,3 +86,13 @@ Command:
 agentcore invoke '{"prompt": "Go to https://company.meralco.com.ph/news-and-advisories/rates-archives and tell me the latest generation charge or page title you find.", "customer_id": "CUST-123", "session_id": "t6"}'
 ```
 Response (exit 0): live page title **"Rates Archives"** retrieved from the Meralco site via `AgentCoreBrowser`. Proves live web retrieval.
+
+## Evidence screenshots
+
+- Test 1 (survey booking): ![T1](screenshots/test1_survey_booking.png)
+- Test 2 (net-metering filing): ![T2](screenshots/test2_net_metering.png)
+- Test 3 (knowledge base RAG): ![T3](screenshots/test3_knowledge_base.png)
+- Test 4 (memory, two sessions): ![T4](screenshots/test4_memory.png)
+- Test 5 (code interpreter): ![T5](screenshots/test5_code_interpreter.png)
+- Test 6 (browser): ![T6](screenshots/test6_browser.png)
+- Offline pytest (8 passed): ![pytest](screenshots/test_results.png)
