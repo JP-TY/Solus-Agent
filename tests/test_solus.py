@@ -7,6 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "starter" / "lambda
 
 from book_site_survey import lambda_handler as survey_handler
 from submit_net_metering import lambda_handler as nm_handler
+from order_tracker import lambda_handler as order_handler
+from refund_processor import lambda_handler as refund_handler
 
 
 class FakeCtx:
@@ -83,6 +85,65 @@ def test_lambda_schema_valid():
     names = {t["name"] for t in schema}
     assert {"submit_net_metering", "check_net_metering_status",
             "get_interconnection_checklist"} <= names
+    assert {"initiate_refund", "check_refund_status",
+            "get_return_label"} <= names
+
+
+def test_order_get_by_id():
+    event = {
+        "resource": "/orders/{order_id}",
+        "httpMethod": "GET",
+        "pathParameters": {"order_id": "ORD-001"},
+    }
+    resp = order_handler(event, None)
+    assert resp["statusCode"] == 200
+    body = json.loads(resp["body"])
+    assert body["status"] == "SHIPPED"
+    assert body["tracking_number"] == "TRK987654321"
+
+
+def test_order_customer_orders():
+    event = {
+        "resource": "/customers/{customer_id}/orders",
+        "httpMethod": "GET",
+        "pathParameters": {"customer_id": "CUST-123"},
+    }
+    resp = order_handler(event, None)
+    assert resp["statusCode"] == 200
+    body = json.loads(resp["body"])
+    assert len(body["orders"]) == 2
+
+
+def test_order_not_found():
+    event = {
+        "resource": "/orders/{order_id}",
+        "httpMethod": "GET",
+        "pathParameters": {"order_id": "ORD-999"},
+    }
+    resp = order_handler(event, None)
+    assert resp["statusCode"] == 404
+
+
+def test_refund_initiate():
+    event = {"order_id": "ORD-002", "amount": 139.99, "reason": "damaged"}
+    resp = refund_handler(event, FakeCtx("SolusTarget___initiate_refund"))
+    assert resp["statusCode"] == 200
+    body = json.loads(resp["body"])
+    assert body["refund_id"].startswith("REF-")
+    assert body["status"] == "APPROVED"
+
+
+def test_refund_status_and_label():
+    resp = refund_handler(
+        {"refund_id": "REF-ABC12345"},
+        FakeCtx("SolusTarget___check_refund_status"))
+    assert resp["statusCode"] == 200
+    assert json.loads(resp["body"])["status"] == "PROCESSING"
+    resp = refund_handler(
+        {"order_id": "ORD-001"},
+        FakeCtx("SolusTarget___get_return_label"))
+    assert resp["statusCode"] == 200
+    assert "label_url" in json.loads(resp["body"])
 
 
 def test_catalog_has_solar_sections():

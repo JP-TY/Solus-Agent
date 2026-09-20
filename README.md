@@ -15,8 +15,9 @@ Runtime: `solus_agent` (us-east-1) · Model: Nova 2 Lite · SDK: Strands Agents
   (`retrieve_customer_context` / `save_support_interaction`), a
   `calculate_loyalty_discount` code-interpreter tool that also sizes the solar
   system, and an `AgentCoreBrowser` tool.
-- `starter/lambda/` — `book_site_survey` (behind a REST API Gateway target)
-  and `submit_net_metering` (direct Lambda target), plus the tool schema.
+- `starter/lambda/` — `book_site_survey` and `order_tracker` (behind REST API
+  Gateway targets) and `submit_net_metering` / `refund_processor` (direct
+  Lambda targets), plus the tool schema.
 - `starter/product_catalog.txt` — panel / inverter / battery catalog and
   ERC net-metering rules ingested into the knowledge base.
 - `infra/` — helper scripts that built the Gateway, REST API, knowledge base
@@ -44,18 +45,20 @@ agentcore invoke '{"prompt": "Hi, I am Maria from Quezon City. Book an ocular si
 
 ## Test evidence
 
-Offline suite: 8 passed — ![pytest](screenshots/test_results.png)
+Offline suite: 13 passed — ![pytest](screenshots/test_results.png)
 
-Live runs (`TEST_LOGS.md`):
+Live/offline runs (`TEST_LOGS.md`):
 
 | # | Scenario | Screenshot |
 |---|----------|------------|
-| 1 | Site-survey booking (API Gateway target) | ![T1](screenshots/test1_survey_booking.png) |
-| 2 | Net-metering filing (Lambda target) | ![T2](screenshots/test2_net_metering.png) |
+| 1 | Order tracking (API-proxy Lambda) | ![T1](screenshots/test1_order_tracking.png) |
+| 2 | Refund processing (Lambda target) | ![T2](screenshots/test2_refund_processing.png) |
 | 3 | Knowledge-base RAG (550W specs + ERC rule) | ![T3](screenshots/test3_knowledge_base.png) |
 | 4 | Long-term memory across two sessions | ![T4](screenshots/test4_memory.png) |
 | 5 | Code-interpreter math (discount + sizing) | ![T5](screenshots/test5_code_interpreter.png) |
 | 6 | Browser lookup (Meralco rates page) | ![T6](screenshots/test6_browser.png) |
+| A | Extra live demo: site-survey booking | ![XA](screenshots/gateway_survey_booking.png) |
+| B | Extra live demo: net-metering filing | ![XB](screenshots/gateway_net_metering.png) |
 
 ## Teardown (stop idle spend)
 

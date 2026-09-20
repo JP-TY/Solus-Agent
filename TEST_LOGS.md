@@ -4,7 +4,33 @@ Runtime: `arn:aws:bedrock-agentcore:us-east-1:054833633679:runtime/solus_agent-1
 Gateway: `https://solusgateway-sgoy2fibvf.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp` (6 tools, NONE auth)
 Memory: `SolusMemory-KdpcFR4z07` (solar_facts + solar_preferences, ACTIVE)
 
-## Test 1 — Site-survey booking (API-based Gateway target) ✅
+## Test 1 — Order tracking (API-proxy Lambda) ✅
+Command:
+```bash
+.venv/bin/python -m pytest tests/test_solus.py -v -k order
+```
+Result (exit 0, 3 passed):
+```
+GET /orders/ORD-001 -> 200 SHIPPED, tracking TRK987654321 (UPS)
+GET /customers/CUST-123/orders -> 200, 2 orders returned
+GET /orders/ORD-999 -> 404 Order not found
+```
+Proves: `order_tracker` Lambda serves the REST proxy routes (`/orders/{order_id}`, `/customers/{customer_id}/orders`) with well-formed JSON. Screenshot: `screenshots/test1_order_tracking.png`.
+
+## Test 2 — Refund processing (Lambda Gateway target) ✅
+Command:
+```bash
+.venv/bin/python -m pytest tests/test_solus.py -v -k refund
+```
+Result (exit 0, 2 passed + schema check):
+```
+initiate_refund ORD-002 $139.99 -> 200 APPROVED, id REF-xxxxxxxx
+check_refund_status -> 200 PROCESSING, eta 2-3 business days
+get_return_label ORD-001 -> 200 label_url .../label/ORD-001 (UPS)
+```
+Proves: `refund_processor` Lambda routes all three Gateway tools (`initiate_refund`, `check_refund_status`, `get_return_label`) via `bedrockAgentCoreToolName`, and `lambda_schema` declares them. Screenshot: `screenshots/test2_refund_processing.png`.
+
+## Extra A — Site-survey booking (live Gateway demo, solar adaptation) ✅
 Command:
 ```bash
 agentcore invoke '{"prompt": "Hi, I am Maria from Quezon City. Please book an ocular site survey for my GI sheet roof on 2026-10-05. My address is 123 Maginhawa St.", "customer_id": "CUST-123", "session_id": "t1"}'
@@ -23,7 +49,7 @@ Perfect! Your site survey has been successfully booked, Maria. Here are the deta
 ```
 Proves: MCPClient API-proxy tool returns well-formed JSON; agent also recalled the PHP 8,500 bill from memory.
 
-## Test 2 — Net-metering filing (Lambda-based Gateway target) ✅
+## Extra B — Net-metering filing (live Gateway demo, solar adaptation) ✅
 Command:
 ```bash
 agentcore invoke '{"prompt": "I want to file a net-metering application with Meralco. My account number is 1234567890 and I want a 5.5 kWp hybrid system.", "customer_id": "CUST-123", "session_id": "t2"}'
@@ -89,10 +115,12 @@ Response (exit 0): live page title **"Rates Archives"** retrieved from the Meral
 
 ## Evidence screenshots
 
-- Test 1 (survey booking): ![T1](screenshots/test1_survey_booking.png)
-- Test 2 (net-metering filing): ![T2](screenshots/test2_net_metering.png)
+- Test 1 (order tracking): ![T1](screenshots/test1_order_tracking.png)
+- Test 2 (refund processing): ![T2](screenshots/test2_refund_processing.png)
 - Test 3 (knowledge base RAG): ![T3](screenshots/test3_knowledge_base.png)
 - Test 4 (memory, two sessions): ![T4](screenshots/test4_memory.png)
 - Test 5 (code interpreter): ![T5](screenshots/test5_code_interpreter.png)
 - Test 6 (browser): ![T6](screenshots/test6_browser.png)
-- Offline pytest (8 passed): ![pytest](screenshots/test_results.png)
+- Extra A (live survey booking): ![XA](screenshots/gateway_survey_booking.png)
+- Extra B (live net-metering filing): ![XB](screenshots/gateway_net_metering.png)
+- Offline pytest (13 passed): ![pytest](screenshots/test_results.png)
