@@ -1,0 +1,225 @@
+:root {
+  --bg: #0b1220;
+  --panel: #141d33;
+  --panel-2: #1a2540;
+  --border: #2a3a5c;
+  --green: #4ec96a;
+  --blue: #569cd6;
+  --yellow: #f2c14e;
+  --white: #e8edf5;
+  --gray: #8b95a9;
+  --radius: 14px;
+  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.solus-page {
+  min-height: 100vh;
+  padding: 0 420px 64px 0;
+}
+
+.solus-hero {
+  padding: 56px 56px 8px;
+  max-width: 980px;
+}
+
+.solus-eyebrow {
+  font-family: var(--font-mono);
+  color: var(--green);
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.solus-hero h1 {
+  font-size: 52px;
+  line-height: 1.05;
+  margin: 14px 0 12px;
+  letter-spacing: -0.5px;
+}
+
+.solus-hero h1 .sun {
+  color: var(--yellow);
+}
+
+.solus-sub {
+  color: var(--gray);
+  font-size: 19px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.solus-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--green);
+  border: 1px solid var(--green);
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+
+.solus-status .dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.solus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 20px;
+  padding: 32px 56px 0;
+  max-width: 980px;
+}
+
+.solus-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 6px solid var(--blue);
+  border-radius: var(--radius);
+  padding: 24px 26px;
+}
+
+.solus-card.green {
+  border-left-color: var(--green);
+}
+
+.solus-card.yellow {
+  border-left-color: var(--yellow);
+}
+
+.solus-card h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+}
+
+.solus-card .kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+.solus-stat {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 12px 0 2px;
+}
+
+.solus-stat small {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--gray);
+}
+
+.solus-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 0;
+  border-top: 1px solid var(--border);
+  font-size: 16px;
+}
+
+.solus-row:first-of-type {
+  border-top: none;
+}
+
+.solus-row .val {
+  font-family: var(--font-mono);
+  color: var(--white);
+}
+
+.solus-row .val.good {
+  color: var(--green);
+}
+
+.solus-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 88px;
+  margin-top: 14px;
+}
+
+.solus-bars i {
+  flex: 1;
+  border-radius: 5px 5px 0 0;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+
+.solus-bars i.hot {
+  background: var(--yellow);
+  border-color: var(--yellow);
+}
+
+.solus-card input[type="date"] {
+  width: 100%;
+  margin-top: 14px;
+  background: var(--bg);
+  color: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-family: var(--font-sans);
+  color-scheme: dark;
+}
+
+.solus-card button {
+  width: 100%;
+  margin-top: 12px;
+  background: var(--green);
+  color: #08130c;
+  border: none;
+  border-radius: 9px;
+  padding: 13px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.solus-card button:hover {
+  filter: brightness(1.08);
+}
+
+.solus-note {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.solus-foot {
+  padding: 28px 56px 0;
+  max-width: 980px;
+  color: var(--gray);
+  font-size: 14px;
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 1100px) {
+  .solus-page {
+    padding-right: 0;
+  }
+}
