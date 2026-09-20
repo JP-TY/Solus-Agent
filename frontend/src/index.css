@@ -1,24 +1,47 @@
+/* Hallmark · pre-emit critique: P5 H4 E5 S4 R5 V4
+ * Register: product (app UI, design serves the product).
+ * Scene: a Quezon City homeowner checking Solus on a phone in noon jeepney
+ * glare, then again at home in a dim brownout evening. Forces: dark solar
+ * console with glare-proof contrast, heavy type, thumb-sized targets.
+ * Bans honored: no side-stripe accents, no gradient text, no glass default,
+ * no hero-metric template, no em dashes in copy, roman display type.
+ */
+
 :root {
-  --bg: #0b1220;
-  --panel: #141d33;
-  --panel-2: #1a2540;
-  --border: #2a3a5c;
-  --green: #4ec96a;
-  --blue: #569cd6;
-  --yellow: #f2c14e;
-  --white: #e8edf5;
-  --gray: #8b95a9;
+  --bg: oklch(0.23 0.035 258);
+  --panel: oklch(0.27 0.04 258);
+  --panel-2: oklch(0.31 0.045 258);
+  --border: oklch(0.4 0.05 258);
+  --green: oklch(0.73 0.16 150);
+  --blue: oklch(0.7 0.12 250);
+  --yellow: oklch(0.83 0.13 85);
+  --white: oklch(0.93 0.012 100);
+  --gray: oklch(0.68 0.03 258);
   --radius: 14px;
   --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
+
+  --copilot-kit-background-color: oklch(0.25 0.038 258);
+  --copilot-kit-secondary-color: oklch(0.29 0.042 258);
+  --copilot-kit-input-background-color: oklch(0.21 0.032 258);
+  --copilot-kit-separator-color: oklch(0.4 0.05 258);
+  --copilot-kit-primary-color: oklch(0.73 0.16 150);
+  --copilot-kit-contrast-color: oklch(0.2 0.03 150);
+  --copilot-kit-secondary-contrast-color: oklch(0.93 0.012 100);
+  --copilot-kit-muted-color: oklch(0.55 0.03 258);
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
+  overflow-x: clip;
   margin: 0;
+}
+
+body {
   background: var(--bg);
   color: var(--white);
   font-family: var(--font-sans);
@@ -44,10 +67,13 @@ body {
 }
 
 .solus-hero h1 {
-  font-size: 52px;
-  line-height: 1.05;
+  font-style: normal;
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1.04;
   margin: 14px 0 12px;
   letter-spacing: -0.5px;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 .solus-hero h1 .sun {
@@ -59,6 +85,7 @@ body {
   font-size: 19px;
   line-height: 1.55;
   margin: 0;
+  max-width: 68ch;
 }
 
 .solus-status {
@@ -72,6 +99,7 @@ body {
   border: 1px solid var(--green);
   border-radius: 999px;
   padding: 8px 18px;
+  white-space: nowrap;
 }
 
 .solus-status .dot {
@@ -79,11 +107,12 @@ body {
   height: 9px;
   border-radius: 50%;
   background: var(--green);
+  flex: none;
 }
 
 .solus-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(290px, 100%), 1fr));
   gap: 20px;
   padding: 32px 56px 0;
   max-width: 980px;
@@ -92,22 +121,41 @@ body {
 .solus-card {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-left: 6px solid var(--blue);
   border-radius: var(--radius);
   padding: 24px 26px;
+  min-width: 0;
 }
 
-.solus-card.green {
-  border-left-color: var(--green);
+.solus-card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
 }
 
-.solus-card.yellow {
-  border-left-color: var(--yellow);
+.solus-chip {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex: none;
+}
+
+.solus-chip.green {
+  background: var(--green);
+}
+
+.solus-chip.blue {
+  background: var(--blue);
+}
+
+.solus-chip.yellow {
+  background: var(--yellow);
 }
 
 .solus-card h3 {
-  margin: 0 0 4px;
-  font-size: 20px;
+  margin: 0;
+  font-style: normal;
+  font-size: 22px;
 }
 
 .solus-card .kicker {
@@ -118,34 +166,36 @@ body {
   text-transform: uppercase;
 }
 
-.solus-stat {
-  font-size: 40px;
-  font-weight: 800;
-  margin: 12px 0 2px;
+.solus-lede {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--white);
+  margin: 10px 0 4px;
 }
 
-.solus-stat small {
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--gray);
+.solus-lede strong {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.solus-lede .good {
+  color: var(--green);
 }
 
 .solus-row {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  padding: 9px 0;
+  gap: 12px;
+  padding: 10px 0;
   border-top: 1px solid var(--border);
   font-size: 16px;
-}
-
-.solus-row:first-of-type {
-  border-top: none;
 }
 
 .solus-row .val {
   font-family: var(--font-mono);
   color: var(--white);
+  text-align: right;
 }
 
 .solus-row .val.good {
@@ -166,6 +216,7 @@ body {
   background: var(--panel-2);
   border: 1px solid var(--border);
   border-bottom: none;
+  min-width: 0;
 }
 
 .solus-bars i.hot {
@@ -190,17 +241,24 @@ body {
   width: 100%;
   margin-top: 12px;
   background: var(--green);
-  color: #08130c;
+  color: oklch(0.25 0.05 150);
   border: none;
   border-radius: 9px;
   padding: 13px 14px;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .solus-card button:hover {
   filter: brightness(1.08);
+}
+
+.solus-card button:focus-visible,
+.solus-card input[type="date"]:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
 }
 
 .solus-note {
@@ -221,5 +279,28 @@ body {
 @media (max-width: 1100px) {
   .solus-page {
     padding-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .solus-hero {
+    padding: 32px 20px 4px;
+  }
+
+  .solus-sub {
+    font-size: 17px;
+  }
+
+  .solus-grid {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 24px 20px 0;
+  }
+
+  .solus-card {
+    padding: 20px;
+  }
+
+  .solus-foot {
+    padding: 24px 20px 0;
   }
 }

@@ -10,7 +10,7 @@ export default function App() {
           <div className="solus-eyebrow">Bedrock AgentCore · Strands · Nova 2 Lite</div>
           <h1>Solus <span className="sun">☀</span> Philippine Solar Concierge</h1>
           <p className="solus-sub">
-            Meralco · VECO · Davao Light — ERC net-metering guidance, 4.5 PSH
+            Meralco, VECO, Davao Light: ERC net-metering guidance, 4.5 PSH
             system sizing, and typhoon-ready mounting advice, with a concierge
             that remembers you.
           </p>
