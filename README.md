@@ -36,7 +36,10 @@ Frontend (Vite + React, CopilotKit UI, Amplify auth) ──▶ Runtime
 - `infra/` — helper scripts that built the Gateway, REST API, knowledge base
   and memory; `infra/outputs.json` records the deployed IDs.
 - `terraform/modules/solus-lambdas` — Terraform module for the Lambdas.
-- `frontend/` — Vite + React chat skeleton (CopilotKit UI, Amplify auth).
+- `frontend/` — Vite + React light-solar console: purpose-built `SolusChat`
+  panel with quick replies, Cognito `AuthGate`, generative widgets, and a
+  Python API bridge (`server/solus-api.py`) that invokes the live runtime
+  server-side so the browser never holds AWS credentials.
 - `tests/` — offline pytest suite, no AWS calls needed.
 - `TEST_LOGS.md` — full conversation logs for all 6 rubric scenarios.
 - `reflection.md` — what I built, what broke, and what I'd change for production.
@@ -73,6 +76,20 @@ agentcore invoke '{"prompt": "Hi, I am Maria from Quezon City. Book an ocular si
 ## Test evidence
 
 Offline suite: 13 passed — ![pytest](screenshots/test_results.png)
+
+### Knowledge-base grounding
+
+Bedrock KB admin APIs are denied in this sandbox (verified: `GetKnowledgeBase`
+returns `AccessDenied` under the session policy), and native vector stores
+(`aoss:*`, `s3vectors:*`, `rds:*`) are not provisionable here — so the live KB
+status is evidenced three ways instead of a console screenshot: (1) Test 3's
+live Retrieve output, verbatim from `SolusKB`; (2) the KB id `EG5YRCZGER`
+matching in both `starter/main.py` (`KB_ID`) and `infra/outputs.json`
+(`kbId`, `kbStore: pinecone`, `kbSynced: true`); (3) `infra/build_kb.py`,
+which reproduces the Pinecone path end to end and resumes from
+`infra/outputs.json` — run `.venv/bin/python infra/build_kb.py` for all steps
+or pass step names (`pinecone_secret`, `kb_role_pinecone`, `kb_pinecone`,
+`datasource`, `sync`).
 
 Runs (`TEST_LOGS.md`):
 

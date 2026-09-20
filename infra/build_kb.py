@@ -302,6 +302,9 @@ if __name__ == "__main__":
     out = load_out()
     for name in wanted:
         print(f"===== step: {name} =====")
-        out = STEPS[name](out)
+        try:
+            out = STEPS[name](out)
+        except KeyError:
+            print(f"unknown step {name}, skipping (available: {', '.join(STEPS)})")
         save_out(out)
     print("DONE")
