@@ -1,6 +1,9 @@
 """
 Refund Processor Lambda
 ========================
+Adapted from the Udacity project starter code (provided for use in this
+project). Original tool-routing design retained; behavior unchanged.
+
 Handles refund-related operations for the customer support agent.
 Invoked directly by the AgentCore Gateway (not through API Gateway).
 

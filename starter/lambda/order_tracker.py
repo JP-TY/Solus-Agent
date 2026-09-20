@@ -1,6 +1,9 @@
 """
 Order Tracking Lambda
 ======================
+Adapted from the Udacity project starter code (provided for use in this
+project). Original mock-data design retained; routes and responses unchanged.
+
 Handles order and customer lookup.
 Invoked through the AgentCore Gateway (REST API proxy integration).
 
