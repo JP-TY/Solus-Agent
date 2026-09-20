@@ -193,8 +193,11 @@ def search_knowledge_base(query: str) -> str:
     Returns:
         Relevant information retrieved from the knowledge base
     """
-    if not KB_ID or KB_ID.startswith("<"):
-        return "Knowledge base not configured."
+    if not KB_ID or not KB_ID.strip() or KB_ID.startswith("<"):
+        return (
+            "Knowledge base is not configured: KB_ID is empty or missing. "
+            "Please configure KB_ID before attempting a knowledge-base search."
+        )
     try:
         resp = _bedrock_runtime.retrieve(
             knowledgeBaseId=KB_ID,

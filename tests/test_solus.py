@@ -160,7 +160,7 @@ def test_main_rubric_patterns():
         "BedrockAgentCoreApp()", "@app.entrypoint", "app.run()",
         "MCPClient", "streamable_http_client", "create_all_tools", "list_tools_sync",
         "@tool", "def search_knowledge_base", "_bedrock_runtime.retrieve",
-        "Knowledge base not configured", "def get_namespaces",
+        "KB_ID is empty or missing", "def get_namespaces",
         "namespaceTemplates", "class MemoryHook(HookProvider)",
         "register_hooks", "retrieve_customer_context", "save_support_interaction",
         "create_event", "def calculate_loyalty_discount",
