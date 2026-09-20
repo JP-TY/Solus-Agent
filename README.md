@@ -134,7 +134,7 @@ consulted and integrated into the build (listed by where they were applied):
   auth scaffolding, and the `bedrock-agentcore` client in `frontend/`.
 - **Terraform AWS provider docs** ([registry.terraform.io](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)) — Lambda packaging and IAM in
   `terraform/modules/solus-lambdas`.
-- **Public domain references** — ERC net-metering rules, Meralco rate pages
+- **Public domain references** — ERC net-metering rules ([erc.gov.ph](https://www.erc.gov.ph/), blocks automated fetching but loads in a browser), Meralco rate pages
   ([company.meralco.com.ph](https://company.meralco.com.ph/), retrieved live in Test 6), and vendor datasheets behind the panel/inverter
   figures in `starter/product_catalog.txt`.
 
