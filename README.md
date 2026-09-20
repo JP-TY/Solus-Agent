@@ -107,6 +107,37 @@ I affirm that I have read Udacity's definition of plagiarism, that this
 submission is my own work, and that all content obtained from other sources is
 attributed above.
 
+### Learning resources & references
+
+Beyond the starter code, the following documentation and public references were
+consulted and integrated into the build (listed by where they were applied):
+
+- **Strands Agents SDK docs** — agent construction, `@tool` authoring, the
+  `MCPClient` + `HookProvider`/`register_hooks` pattern, and `AgentCoreBrowser`
+  from `strands-tools` (all wired in `starter/main.py`).
+- **Amazon Bedrock AgentCore docs** — `BedrockAgentCoreApp` runtime shape and
+  `@app.entrypoint`, `MemoryClient` strategies/namespaces, Gateway targets and
+  MCP tool routing via `bedrockAgentCoreToolName`, and the Code Interpreter
+  `code_session(...).invoke("executeCode", ...)` call.
+- **Model Context Protocol (Python SDK) docs** — `streamable_http_client` used
+  to connect the Strands `MCPClient` to the Gateway URL.
+- **Amazon Bedrock Knowledge Bases docs** — S3 data source setup, Titan Embed
+  Text v2 as the embedding model, the Retrieve API, and the Pinecone storage
+  configuration (all automated in `infra/build_kb.py` after the native
+  OpenSearch Serverless path was denied in this sandbox).
+- **Pinecone docs** — serverless index model (1024-dim cosine) behind the
+  Secrets Manager credential referenced in `infra/outputs.json`.
+- **boto3 / botocore docs** — STS identity resolution and the AgentCore control
+  plane calls automated in `infra/build_cli.py` (roles, REST API, Gateway,
+  targets, memory).
+- **CopilotKit, AWS Amplify, and AWS SDK for JavaScript docs** — chat UI,
+  auth scaffolding, and the `bedrock-agentcore` client in `frontend/`.
+- **Terraform AWS provider docs** — Lambda packaging and IAM in
+  `terraform/modules/solus-lambdas`.
+- **Public domain references** — ERC net-metering rules, Meralco rate pages
+  (retrieved live in Test 6), and vendor datasheets behind the panel/inverter
+  figures in `starter/product_catalog.txt`.
+
 ## Teardown (stop idle spend)
 
 After capturing evidence: destroy the runtime, Gateway, memory, REST API,
