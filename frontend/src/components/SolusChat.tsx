@@ -9,6 +9,17 @@ const QUICK = [
   "Size solar for 425 kWh a month",
 ];
 
+function renderRich(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) =>
+    part.startsWith("**") && part.endsWith("**") && part.length > 4 ? (
+      <strong key={i}>{part.slice(2, -2)}</strong>
+    ) : (
+      <span key={i}>{part}</span>
+    ),
+  );
+}
+
 function ids() {
   let customer = localStorage.getItem("solus-customer") || "";
   let session = localStorage.getItem("solus-session") || "";
@@ -89,7 +100,7 @@ export function SolusChat({ token }: { token: string | null }) {
         {msgs.map((m, i) => (
           <div key={i} className={`solus-msg ${m.role}`}>
             <span className="who">{m.role === "agent" ? "Solus" : "You"}</span>
-            {m.text}
+            {renderRich(m.text)}
           </div>
         ))}
         {busy && (
