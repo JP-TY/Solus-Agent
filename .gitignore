@@ -11,9 +11,8 @@ frontend/dist/
 frontend/vite-dev.log
 frontend/api.log
 
-# Demo video workspace + renders (deliverables, not source)
+# Demo video workspace + webm sources (deliverable mp4 goes through Git LFS)
 demo-video/
-*.mp4
 *.webm
 
 # Bedrock AgentCore local build artifacts
