@@ -1,23 +1,24 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
- * Register: product. Scene: a Batangas homeowner at 1pm glare checking
- * payback on a phone, then showing neighbors at dusk. Forces: light sun
- * theme for glare legibility, heavy ink, thumb-sized targets.
+ * Register: product. Scene: a Quezon City homeowner checking Solus in a dim
+ * brownout evening, phone in one hand. Forces: dark solar console,
+ * glare-cutting contrast, heavy type, thumb-sized targets. Amber leads.
  * Bans honored: no side stripes, no gradient text, no glass, no hero-metric
  * template, no em dashes, roman display type, real copy only.
  */
 
 :root {
-  --paper: oklch(0.965 0.018 92);
-  --paper-2: oklch(0.93 0.028 90);
-  --ink: oklch(0.27 0.02 95);
-  --ink-soft: oklch(0.46 0.025 95);
-  --line: oklch(0.85 0.03 90);
-  --sun: oklch(0.72 0.15 80);
-  --sun-deep: oklch(0.6 0.13 80);
-  --sun-ink: oklch(0.3 0.05 80);
-  --sun-tint: oklch(0.94 0.05 88);
-  --sky: oklch(0.62 0.12 245);
-  --leaf: oklch(0.58 0.14 155);
+  --bg: oklch(0.23 0.035 258);
+  --panel: oklch(0.27 0.04 258);
+  --panel-2: oklch(0.31 0.045 258);
+  --border: oklch(0.4 0.05 258);
+  --sun: oklch(0.78 0.15 80);
+  --sun-deep: oklch(0.85 0.13 80);
+  --sun-ink: oklch(0.25 0.04 80);
+  --sun-tint: oklch(0.32 0.06 80);
+  --sky: oklch(0.7 0.12 250);
+  --leaf: oklch(0.73 0.16 150);
+  --white: oklch(0.93 0.012 100);
+  --gray: oklch(0.68 0.03 258);
   --radius: 14px;
   --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "JetBrains Mono", Menlo, Consolas, monospace;
@@ -34,8 +35,8 @@ body {
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
+  background: var(--bg);
+  color: var(--white);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -52,7 +53,7 @@ body {
 
 .solus-eyebrow {
   font-family: var(--font-mono);
-  color: var(--sun-deep);
+  color: var(--sun);
   font-size: 14px;
   letter-spacing: 4px;
   text-transform: uppercase;
@@ -69,11 +70,11 @@ body {
 }
 
 .solus-hero h1 .sun {
-  color: var(--sun-deep);
+  color: var(--sun);
 }
 
 .solus-sub {
-  color: var(--ink-soft);
+  color: var(--gray);
   font-size: 19px;
   line-height: 1.55;
   margin: 0;
@@ -87,9 +88,8 @@ body {
   margin-top: 20px;
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--sun-ink);
-  border: 1px solid var(--sun-deep);
-  background: var(--sun-tint);
+  color: var(--sun);
+  border: 1px solid var(--sun);
   border-radius: 999px;
   padding: 8px 18px;
   white-space: nowrap;
@@ -112,8 +112,8 @@ body {
 }
 
 .solus-card {
-  background: var(--paper-2);
-  border: 1px solid var(--line);
+  background: var(--panel);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px 26px;
   min-width: 0;
@@ -155,7 +155,7 @@ body {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 3px;
-  color: var(--ink-soft);
+  color: var(--gray);
   text-transform: uppercase;
 }
 
@@ -180,12 +180,13 @@ body {
   align-items: baseline;
   gap: 12px;
   padding: 10px 0;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--border);
   font-size: 16px;
 }
 
 .solus-row .val {
   font-family: var(--font-mono);
+  color: var(--white);
   text-align: right;
 }
 
@@ -204,25 +205,28 @@ body {
 .solus-bars i {
   flex: 1;
   border-radius: 5px 5px 0 0;
-  background: var(--line);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-bottom: none;
   min-width: 0;
 }
 
 .solus-bars i.hot {
   background: var(--sun);
+  border-color: var(--sun);
 }
 
 .solus-card input[type="date"] {
   width: 100%;
   margin-top: 14px;
-  background: var(--paper);
-  color: var(--ink);
-  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--white);
+  border: 1px solid var(--border);
   border-radius: 9px;
   padding: 12px 14px;
   font-size: 16px;
   font-family: var(--font-sans);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 .solus-btn {
@@ -240,28 +244,27 @@ body {
 }
 
 .solus-btn:hover {
-  filter: brightness(0.96);
+  filter: brightness(1.08);
 }
 
 .solus-btn:focus-visible,
 .solus-card input[type="date"]:focus-visible,
-.solus-chat-input textarea:focus-visible,
-.solus-chip-btn:focus-visible {
-  outline: 3px solid var(--sky);
+.solus-chat-input textarea:focus-visible {
+  outline: 2px solid var(--sky);
   outline-offset: 2px;
 }
 
 .solus-note {
   margin-top: 14px;
   font-size: 14px;
-  color: var(--ink-soft);
+  color: var(--gray);
   line-height: 1.5;
 }
 
 .solus-foot {
   padding: 28px 56px 0;
   max-width: 980px;
-  color: var(--ink-soft);
+  color: var(--gray);
   font-size: 14px;
   font-family: var(--font-mono);
 }
@@ -273,8 +276,8 @@ body {
   bottom: 0;
   width: 400px;
   max-width: 100vw;
-  background: var(--paper-2);
-  border-left: 1px solid var(--line);
+  background: var(--panel);
+  border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   z-index: 40;
@@ -282,7 +285,7 @@ body {
 
 .solus-chat-head {
   padding: 18px 20px 14px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
 }
 
 .solus-chat-head h2 {
@@ -295,18 +298,18 @@ body {
 }
 
 .solus-chat-head h2 .sun {
-  color: var(--sun-deep);
+  color: var(--sun);
 }
 
 .solus-chat-head p {
   margin: 6px 0 0;
   font-size: 14px;
-  color: var(--ink-soft);
+  color: var(--gray);
 }
 
 .solus-chat-user {
   padding: 12px 20px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--border);
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -316,12 +319,12 @@ body {
 .solus-chat-user button {
   margin-left: auto;
   background: none;
-  border: 1px solid var(--line);
+  border: 1px solid var(--border);
   border-radius: 999px;
   padding: 6px 14px;
   font-size: 13px;
   cursor: pointer;
-  color: var(--ink);
+  color: var(--white);
   white-space: nowrap;
 }
 
@@ -335,24 +338,24 @@ body {
 }
 
 .solus-msg {
-  max-width: 92%;
+  max-width: 94%;
   padding: 11px 15px;
   border-radius: 12px;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
 .solus-msg.agent {
-  background: var(--paper);
-  border: 1px solid var(--line);
+  background: var(--panel-2);
+  border: 1px solid var(--border);
   align-self: flex-start;
 }
 
 .solus-msg.user {
   background: var(--sun-tint);
-  border: 1px solid var(--sun-deep);
+  border: 1px solid var(--sun);
   align-self: flex-end;
 }
 
@@ -361,9 +364,17 @@ body {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 2px;
-  color: var(--ink-soft);
+  color: var(--gray);
   margin-bottom: 4px;
   text-transform: uppercase;
+}
+
+.solus-msg strong {
+  color: var(--sun);
+}
+
+.solus-msg.user strong {
+  color: var(--white);
 }
 
 .solus-typing {
@@ -376,30 +387,11 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--ink-soft);
-}
-
-.solus-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 20px 12px;
-}
-
-.solus-chip-btn {
-  background: var(--paper);
-  border: 1px solid var(--sun-deep);
-  color: var(--sun-ink);
-  border-radius: 999px;
-  padding: 8px 15px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
+  background: var(--gray);
 }
 
 .solus-chat-input {
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--border);
   padding: 12px 14px;
   display: flex;
   gap: 10px;
@@ -410,9 +402,9 @@ body {
   flex: 1;
   min-width: 0;
   resize: none;
-  background: var(--paper);
-  color: var(--ink);
-  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--white);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 11px 13px;
   font-size: 15px;
@@ -449,24 +441,24 @@ body {
 .solus-auth p {
   margin: 0 0 8px;
   font-size: 14px;
-  color: var(--ink-soft);
+  color: var(--gray);
 }
 
 .solus-auth input {
-  background: var(--paper);
-  color: var(--ink);
-  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--white);
+  border: 1px solid var(--border);
   border-radius: 9px;
   padding: 11px 13px;
   font-size: 15px;
   font-family: var(--font-sans);
   width: 100%;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 .solus-auth-error {
   font-size: 14px;
-  color: #a33b2e;
+  color: oklch(0.65 0.15 25);
 }
 
 @media (max-width: 1100px) {
@@ -476,7 +468,7 @@ body {
 
   .solus-chat {
     width: min(400px, 100vw);
-    box-shadow: -12px 0 32px rgba(60, 45, 10, 0.18);
+    box-shadow: -12px 0 32px rgba(0, 0, 0, 0.45);
   }
 }
 

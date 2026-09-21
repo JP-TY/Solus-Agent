@@ -36,7 +36,7 @@ export function SurveyDatePicker({ onConfirm }: { onConfirm: (date: string) => v
       </div>
       <h3>Confirm survey date</h3>
       <input type="date" aria-label="Survey date" id="solus-survey-date" />
-      <button onClick={() => {
+      <button className="solus-btn" onClick={() => {
         const el = document.getElementById("solus-survey-date") as HTMLInputElement;
         onConfirm(el?.value ?? "");
       }}>Confirm survey</button>

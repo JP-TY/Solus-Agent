@@ -2,13 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 export type ChatMsg = { role: "user" | "agent"; text: string };
 
-const QUICK = [
-  "Where is my order ORD-001?",
-  "Refund order ORD-002, $139.99, arrived damaged",
-  "What are the 550W panel specs?",
-  "Size solar for 425 kWh a month",
-];
-
 function renderRich(text: string) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
   return parts.map((part, i) =>
@@ -57,7 +50,7 @@ export function SolusChat({ token }: { token: string | null }) {
   const [msgs, setMsgs] = useState<ChatMsg[]>([
     {
       role: "agent",
-      text: "Kumusta! Tell me your DU, monthly bill, roof type, and backup needs. Or try a quick question below.",
+      text: "Kumusta! Tell me your DU, monthly bill, roof type, and backup needs.",
     },
   ]);
   const [draft, setDraft] = useState("");
@@ -111,13 +104,6 @@ export function SolusChat({ token }: { token: string | null }) {
             </span>
           </div>
         )}
-      </div>
-      <div className="solus-chips">
-        {QUICK.map((q) => (
-          <button key={q} className="solus-chip-btn" disabled={busy} onClick={() => send(q)}>
-            {q.length > 34 ? q.slice(0, 34) + "…" : q}
-          </button>
-        ))}
       </div>
       <form
         className="solus-chat-input"
